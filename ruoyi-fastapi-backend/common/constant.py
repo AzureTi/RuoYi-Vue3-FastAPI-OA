@@ -315,6 +315,10 @@ class ApiNamespace:
     SYSTEM_USER_IMPORT = 'system:user:import'
     SYSTEM_USER_EXPORT = 'system:user:export'
 
+    SYSTEM_CONFERENCE_ROOM_LIST = 'system:conferenceRoom:list'
+    SYSTEM_CONFERENCE_ROOM_DETAIL = 'system:conferenceRoom:detail'
+    SYSTEM_CONFERENCE_ROOM_LAYOUT_LIST = 'system:conferenceRoom:layout-list'
+
     AI_MODEL_LIST = 'ai:model:list'
     AI_MODEL_ALL = 'ai:model:all'
     AI_MODEL_DETAIL = 'ai:model:detail'
