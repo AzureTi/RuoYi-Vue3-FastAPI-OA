@@ -116,7 +116,7 @@ class Log:
                             'loginTime': oper_time,
                             'userName': user.username,
                             'status': str(status),
-                            'msg': result_dict.get('msg'),
+                            'msg': result_dict.get('msg')[:255] if result_dict.get('msg') else None,
                         }
                     )
 

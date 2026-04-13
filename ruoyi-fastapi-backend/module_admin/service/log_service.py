@@ -494,6 +494,8 @@ class LogAggregatorService:
                     dedup_event_ids.append(event_id)
                     payload = json.loads(payload_raw)
                     if event_type == 'login':
+                        if payload.get('msg'):
+                            payload['msg'] = payload['msg'][:255]
                         await LoginLogDao.add_login_log_dao(session, LogininforModel(**payload))
                     elif event_type == 'operation':
                         await OperationLogDao.add_operation_log_dao(session, OperLogModel(**payload))

@@ -288,6 +288,40 @@
         </el-row>
         <el-row>
           <el-col :span="12">
+            <el-form-item label="管理部门" prop="deptId">
+              <el-tree-select
+                v-model="form.deptId"
+                :data="deptOptions"
+                :props="{ value: 'id', label: 'label', children: 'children' }"
+                value-key="id"
+                placeholder="请选择管理部门"
+                check-strictly
+                clearable
+                style="width: 100%"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="管理员" prop="adminId">
+              <el-select
+                v-model="form.adminId"
+                placeholder="请选择管理员"
+                clearable
+                filterable
+                style="width: 100%"
+              >
+                <el-option
+                  v-for="user in userOptions"
+                  :key="user.userId"
+                  :label="user.nickName + ' (' + user.userName + ')'"
+                  :value="user.userId"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
             <el-form-item label="标签" prop="tags">
               <el-input
                 v-model="form.tags"
@@ -497,6 +531,8 @@ import {
   getConferenceRoomLayoutByRoomId,
   saveConferenceRoomLayout
 } from "@/api/system/conferenceRoom";
+import { deptTreeSelect } from "@/api/system/user";
+import { listUser } from "@/api/system/user";
 
 import { ref, reactive, toRefs, onMounted, getCurrentInstance } from 'vue';
 
@@ -513,6 +549,8 @@ const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
 const dateRange = ref([]);
+const deptOptions = ref([]);
+const userOptions = ref([]);
 
 // 布局设置相关
 const layoutOpen = ref(false);
@@ -654,6 +692,8 @@ function reset() {
     capacity: undefined,
     location: undefined,
     equipment: undefined,
+    deptId: undefined,
+    adminId: undefined,
     tags: undefined,
     status: "0",
     remark: undefined,
@@ -914,7 +954,21 @@ async function loadLayout(roomId) {
 
 onMounted(() => {
   getList();
+  getDeptTree();
+  getUserList();
 });
+
+function getDeptTree() {
+  deptTreeSelect().then((response) => {
+    deptOptions.value = response.data;
+  });
+}
+
+function getUserList() {
+  listUser({ pageNum: 1, pageSize: 1000, status: '0' }).then((response) => {
+    userOptions.value = response.rows;
+  });
+}
 </script>
 
 <style scoped>
